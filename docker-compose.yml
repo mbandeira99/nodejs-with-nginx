@@ -20,11 +20,12 @@ services:
       context: node
     container_name: app
     entrypoint: dockerize -wait tcp://db:3306 -timeout 60s docker-entrypoint.sh
-    volumes:
-      - ./node:/usr/src/app
     tty: true
     ports:
       - "3000:3000"
+    volumes:
+      - ./node:/usr/src/app/
+      - /usr/src/app/node_modules
     networks:
       - node-challenge
     depends_on:
@@ -37,7 +38,7 @@ services:
     container_name: nginx
     restart: always
     ports:
-      - "80:80"
+      - "8080:80"
     depends_on:
       - app
     networks:
